@@ -1,0 +1,5 @@
+node_modules/
+.env
+# .env.production is safe to commit (contains only the public backend URL, no secrets)
+dist/
+.DS_Store
