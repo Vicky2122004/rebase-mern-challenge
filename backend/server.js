@@ -4,7 +4,18 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
+
+// Allow requests from Vercel frontend (all preview + production URLs) and localhost dev
+app.use(
+  cors({
+    origin: [
+      /\.vercel\.app$/, // any *.vercel.app domain
+      /^http:\/\/localhost/, // localhost dev
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+  }),
+);
 app.use(express.json());
 
 // FIX: Added serverSelectionTimeoutMS for better connection stability
