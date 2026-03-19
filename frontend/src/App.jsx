@@ -13,8 +13,15 @@ function App() {
   useEffect(() => {
     fetch(`${BASE_URL}/api/todos`)
       .then((res) => res.json())
-      .then((data) => setTodos(data))
-      .catch(() => setError("Failed to load todos. Is the backend running?"));
+      .then((data) => {
+        // Guard: API should return an array; if it returns an error object, show the error
+        if (Array.isArray(data)) {
+          setTodos(data);
+        } else {
+          setError(data.message || "Backend returned an unexpected response.");
+        }
+      })
+      .catch(() => setError("Failed to reach the backend. Is it running?"));
   }, []);
 
   const addTodo = async () => {
